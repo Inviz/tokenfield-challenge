@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
 import './Tokenfield.css';
 
+// Tokenfield, an input with ability to type.
+// Optionally can have multiple values
+// Optionally can provide list of suggestions
+// Optionally can force only values from a list
 class Tokenfield extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      focused: false,
-      values: this.props.values,
-      suggestions: [],
-      selected: null
+      focused: false,            // check if input is focused, or force focus
+      values: this.props.values, // list of selected values
+      suggestions: [],           // filtered list of suggestions
+      selected: null             // currently selected suggestion
     }
   }
   static defaultProps = {
     values: []
   }
 
-
-  suggest(string) {
+  // show list of suggestions for given string
+  // if tokenfield does not allow custom values, 
+  // it will force first matching option to be selected
+  openSuggestions(string) {
     var value = this.splitValue(string).pop();
 
     var suggestions = this.props.list 
@@ -29,8 +35,6 @@ class Tokenfield extends Component {
       selected: this.props.allowNew ? null : 0
     })
   }
-
-
 
   // add values that are entered into a textfield
   pickValue(string) {
@@ -60,16 +64,14 @@ class Tokenfield extends Component {
     }
   }
 
+  // remove all selected values
   clearValues() {
     this.setState({
       values: []
     })
   }
 
-  isMultiple() {
-    return this.props.hasOwnProperty('multiple') && this.props.multiple !== false
-  }
-
+  // remove a single value
   removeValue(value) {
     var index = this.state.values.indexOf(value);
     if (index > -1) {
@@ -99,53 +101,62 @@ class Tokenfield extends Component {
     return name
   }
 
+  // check if multiple values are allowed
+  isMultiple() {
+    return this.props.hasOwnProperty('multiple') && this.props.multiple !== false
+  }
 
+  // show list of suggestions on focus, 
+  // but only if custom values arent allowed
   onFocus() {
     if (this.props.list && !this.props.allowNew)
-      this.suggest("")
+      this.openSuggestions("")
     this.setState({focused: true})
   }
 
+  // hide list of suggestions
   onBlur() {
-    setTimeout(() => {
-      if (!this.state.focused)
-        this.closeSuggestions()
-
-    }, 50)
+    this.closeSuggestions()
     this.setState({focused: false})
   }
 
+  // Handle clear button press
   onClear(e) {
     this.clearValues();
     this.setState({focused: true})
     e.preventDefault();
   }
 
+  // toggle suggestion list
   onExpand(e) {
     if (this.state.suggestions.length)
       this.closeSuggestions()
     else
-      this.suggest("")
+      this.openSuggestions("")
     e.preventDefault();
   }
 
+  // focus input on click
   onMouseDown(e) {
     this.setState({focused: true})
     e.preventDefault()
   }
 
+  // pick hovered suggestion on mouse click
   onSuggestionMouseDown(e) {
     this.pickValue(e.target.getAttribute('data-value'));
     e.preventDefault()
   }
 
+  // hover suggestion
   onSuggestionHover(e) {
     var index = e.target.getAttribute('data-index');
     if (index != null && !isNaN(parseInt(index)))
       this.selectSuggestion(parseInt(index))
   }
 
-  onKeyDown(e) {
+  onKeyDown(e) {  
+    // add values
     if (e.keyCode === 13  //enter
       || e.keyCode === 188 //,
       || e.keyCode === 186 //;
@@ -160,6 +171,7 @@ class Tokenfield extends Component {
       if (chosen != null)
         this.pickValue(chosen)
       e.preventDefault()
+    // scroll suggestions
     } else if (e.keyCode === 38) {//up 
       if (this.state.suggestions.length) 
         this.selectSuggestion(
@@ -176,23 +188,36 @@ class Tokenfield extends Component {
             : (this.state.selected + 1) % this.state.suggestions.length
         )
       else if (this.props.list.length)
-        this.suggest("")
+        this.openSuggestions("")
       e.preventDefault()
+    // close suggestions
     } else if (e.keyCode === 27) { //esc
       this.closeSuggestions()
+      e.preventDefault()
+    // pop last value
+    } else if (e.keyCode == 8) { // backspace
+      if (this.refs.input.value.length == 0) {
+        var values = this.state.values.slice()
+        values.pop()
+        this.setState({values: values})
+        e.preventDefault()
+      }
     }
   }
 
+  // update suggestions on input
   onInput(e) {
     if (this.props.list)
-      this.suggest(e.target.value)
+      this.openSuggestions(e.target.value)
   }
 
+  // handle removal of a single value
   onRemoveValue(e) {
     this.removeValue(e.target.parentNode.getAttribute('data-value'));
     this.setState({focused: true})
   }
 
+  // refocus input 
   componentDidUpdate () {
     // YF: setTimeout isn't good for this, 
     // but i couldnt quickly figure out at which point 
@@ -205,6 +230,7 @@ class Tokenfield extends Component {
   }
 
   render() {
+    // render values
     var items = this.state.values.map((value) =>
       <li key={"value-" + value} data-value={value}>
         <button className="remove" 
@@ -215,6 +241,7 @@ class Tokenfield extends Component {
         {value}
       </li>
     );
+    // render suggestions
     var suggestions = this.state.suggestions.map((value, index) =>
       <li key={"suggestion-" + value} 
           className={this.state.selected === index ? 'selected' : null}

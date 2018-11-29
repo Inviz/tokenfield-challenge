@@ -1,3 +1,35 @@
+# Tokenfield challenge
+
+This is a react component that provides so called tokenfield widget. It has six variations of the same widget:
+
+1) Tokenfield with multiple values, only limited to select from list of values
+2) Tokenfield with a single value, only limited to select from list of values
+3) Tokenfield with multiple values, that can select from a list or allow custom values
+4) Tokenfield with a single value, that can be selected from a list or typed in
+5) Tokenfield with multiple values without list of suggestions
+6) Tokenfield with a single value with a list of suggestions
+
+## Features 
+
+* Simple keyboard support (esc to close list, up/down to expand or select options with wraparound)
+* Multiple/single values
+* Allowing/forbidding custom values
+* Suggestion list is optional
+* Individually removable values
+* Focus handling (tab, closing suggestions on blur, showing on focus)
+* Buttons to clear values or toggle suggestion list
+* Buttons are context-aware (clear button only appear when values are selected, expand button appears only when option list is available)
+* Backspace can delete last chosen value
+
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
