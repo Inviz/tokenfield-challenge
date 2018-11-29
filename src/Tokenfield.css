@@ -84,17 +84,17 @@
 	right: 0;
 }
 .Tokenfield .clear {
-	background: no-repeat center center url(/icons/close.svg);
+	background: no-repeat center center url(icons/close.svg);
 	border-right: 1px solid #ccc;
 }
 
 .Tokenfield .remove {
-	background: no-repeat center center url(/icons/close.svg);
+	background: no-repeat center center url(icons/close.svg);
 }
 
 .Tokenfield .expand {
 	right: 0;
-	background: no-repeat center center url(/icons/expand.svg);
+	background: no-repeat center center url(icons/expand.svg);
 	background-size: 36px;
 
 }
