@@ -4,6 +4,7 @@
 	border-radius: .25rem;
 	border: 2px solid #ccc;
 	width: 55rem;
+	font-size: 1rem;
 	text-align: left;
 }
 
@@ -28,7 +29,8 @@
 
 .Tokenfield ul.values > li {
 	display: inline;
-	line-height: 1.5rem;
+	line-height: 1.4rem;
+	vertical-align: top;
 }
 .Tokenfield ul.values > li button {
 	right: -.5rem;
@@ -53,7 +55,7 @@
 }
 .Tokenfield input {
 	font-size: 1.5rem;
-	line-height: 2.5rem;
+	line-height: 2.25rem;
 	min-width: 25rem;
 	border-radius: .25rem;
 	background: transparent;
@@ -73,8 +75,11 @@
 	padding-right: .5rem;
 	cursor: pointer;
 	line-height: 2rem;
+	vertical-align: middle;
 }
-
+.Tokenfield .buttons {
+	line-height: 2.25rem
+}
 .Tokenfield .buttons,
 .Tokenfield ul.values button {
 	position: absolute;
