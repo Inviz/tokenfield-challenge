@@ -136,3 +136,10 @@
 	color: #fff;
 	background: blue
 }
+
+.Tokenfield {
+	transition: background-color 0.3s;
+}
+.Tokenfield.changed {
+	background: yellow;
+}

@@ -8,11 +8,15 @@ import './Tokenfield.css';
 class Tokenfield extends Component {
   constructor(props) {
     super(props)
+    var values = [].concat(this.props.values || [])
+                   .concat(this.props.value || [])
+    var options = this.getOptions(this.props.options);
     this.state = {
-      focused: false,            // check if input is focused, or force focus
-      values: this.props.values, // list of selected values
-      suggestions: [],           // filtered list of suggestions
-      selected: null             // currently selected suggestion
+      focused: false,  // check if input is focused, or force focus
+      values: values,  // list of selected values
+      options: options,// list of options
+      suggestions: [], // filtered list of suggestions
+      selected: null   // currently selected suggestion
     }
   }
   static defaultProps = {
@@ -25,15 +29,53 @@ class Tokenfield extends Component {
   openSuggestions(string) {
     var value = this.splitValue(string).pop();
 
-    var suggestions = this.props.list 
-      .filter ((item) => 
-        item.toLowerCase().indexOf(value) === 0
-        && this.state.values.indexOf(item) === -1) 
+    var suggestions = this.state.options 
+      .filter ((option) => 
+        option.name.toLowerCase().indexOf(value) === 0
+        && this.state.values.indexOf(option.value) === -1) 
 
     this.setState({
       suggestions: suggestions,
       selected: this.props.allowNew ? null : 0
     })
+  }
+
+  // Find option name by value
+  getOptionName(option) {
+    if (this.state.options) {
+      for (var i = 0; i < this.state.options; i++)
+        if (this.state.options[i].name === option)
+          return this.state.options[i].value
+    }
+  }
+
+  // normalize options in different formats:
+  //   {value: "Label", ...}
+  //   ["value", ...]
+  //   [["value", "label"], ...]
+  //   [{"name": "label", value: "value"]}, ...]
+  getOptions() {
+    var options = [];
+    if (this.props.options) {
+      if (Array.isArray(this.props.options)) {
+        this.props.options.forEach(function(option) {
+          if (Array.isArray(option))
+            options.push({name: option[0], value: option[1]})
+          else
+            options.push({name: option, value: option})
+        })
+      } else {
+        for (var property in this.props.options) {
+          if (typeof this.props.options[property] == 'object') {
+            options.push(this.props.options[property])
+          } else {
+            options.push({name: property, value: this.props.options[property]})
+          }
+        }
+      }
+    }
+    if (options.length)
+      return options;
   }
 
   // add values that are entered into a textfield
@@ -46,8 +88,6 @@ class Tokenfield extends Component {
       suggestions: []
     })
     this.refs.input.value = '';
-    if (!this.isMultiple())
-      this.refs.input.blur()
   }
 
   // process commas in case comma separated string was pasted into a field
@@ -58,17 +98,13 @@ class Tokenfield extends Component {
   // add single value to the list
   addValue(value) {
     if (value && this.state.values.indexOf(value) === -1) {
-      this.setState({
-        values: this.state.values.concat(value)
-      })
+      this.setValue(this.state.values.concat(value))
     }
   }
 
   // remove all selected values
   clearValues() {
-    this.setState({
-      values: []
-    })
+    this.setValue([])
   }
 
   // remove a single value
@@ -91,6 +127,16 @@ class Tokenfield extends Component {
     this.setState({selected: null, suggestions: []})
   }
 
+  focus() {
+    this.setState({focused: true})
+  }
+
+
+  blur() {
+    this.setState({focused: false})
+    this.refs.input.blur()
+  }
+
   // yield list of classes
   getClassName() {
     var name = "Tokenfield";
@@ -106,24 +152,32 @@ class Tokenfield extends Component {
     return this.props.hasOwnProperty('multiple') && this.props.multiple !== false
   }
 
+  setValue(values) {
+    this.setState({values: values})
+    if (this.props.onChange)
+      this.props.onChange.call(this, values, this)
+    if (!this.isMultiple() && values.length)
+      this.blur()
+  }
+
   // show list of suggestions on focus, 
   // but only if custom values arent allowed
   onFocus() {
-    if (this.props.list && !this.props.allowNew)
+    if (this.state.options && !this.props.allowNew)
       this.openSuggestions("")
-    this.setState({focused: true})
+    this.focus()
   }
 
   // hide list of suggestions
   onBlur() {
     this.closeSuggestions()
-    this.setState({focused: false})
+    this.blur()
   }
 
   // Handle clear button press
   onClear(e) {
     this.clearValues();
-    this.setState({focused: true})
+    this.focus()
     e.preventDefault();
   }
 
@@ -138,7 +192,8 @@ class Tokenfield extends Component {
 
   // focus input on click
   onMouseDown(e) {
-    this.setState({focused: true})
+    if (this.isMultiple() || !this.state.values.length)
+      this.focus()
     e.preventDefault()
   }
 
@@ -146,6 +201,7 @@ class Tokenfield extends Component {
   onSuggestionMouseDown(e) {
     this.pickValue(e.target.getAttribute('data-value'));
     e.preventDefault()
+    e.stopPropagation()
   }
 
   // hover suggestion
@@ -162,12 +218,10 @@ class Tokenfield extends Component {
       || e.keyCode === 186 //;
     ) {
       var chosen = this.state.selected != null
-                    ? this.state.suggestions[this.state.selected] 
+                    ? this.state.suggestions[this.state.selected].value 
                     : this.props.allowNew 
                       ? e.target.value 
                       : null
-
-                  console.log(chosen, this.props)
       if (chosen != null)
         this.pickValue(chosen)
       e.preventDefault()
@@ -187,7 +241,7 @@ class Tokenfield extends Component {
             ? 0
             : (this.state.selected + 1) % this.state.suggestions.length
         )
-      else if (this.props.list.length)
+      else if (this.state.options)
         this.openSuggestions("")
       e.preventDefault()
     // close suggestions
@@ -199,7 +253,7 @@ class Tokenfield extends Component {
       if (this.refs.input.value.length == 0) {
         var values = this.state.values.slice()
         values.pop()
-        this.setState({values: values})
+        this.setValue(values);
         e.preventDefault()
       }
     }
@@ -207,14 +261,14 @@ class Tokenfield extends Component {
 
   // update suggestions on input
   onInput(e) {
-    if (this.props.list)
+    if (this.state.options)
       this.openSuggestions(e.target.value)
   }
 
   // handle removal of a single value
   onRemoveValue(e) {
     this.removeValue(e.target.parentNode.getAttribute('data-value'));
-    this.setState({focused: true})
+    this.focus()
   }
 
   // refocus input 
@@ -231,31 +285,39 @@ class Tokenfield extends Component {
 
   render() {
     // render values
-    var items = this.state.values.map((value) =>
-      <li key={"value-" + value} data-value={value}>
+    var items = this.state.values.map((value) => {
+      var name = this.getOptionName(value);
+      if (name === undefined)
+        name = value;
+      return <li key={"value-" + value} 
+           data-value={value} 
+           data-name={name}>
         <button className="remove" 
                 tabIndex="-1"
                 onMouseDown={this.onRemoveValue.bind(this)}>
           Delete
         </button>
-        {value}
+        <input type="hidden" name={this.props.name + '[]'} value={value} />
+        {name}
       </li>
-    );
+    });
     // render suggestions
-    var suggestions = this.state.suggestions.map((value, index) =>
-      <li key={"suggestion-" + value} 
+    var suggestions = this.state.suggestions.map((option, index) =>
+      <li key={"suggestion-" + option.value} 
           className={this.state.selected === index ? 'selected' : null}
-          data-value={value}
-          data-index={index}>{value}
+          data-value={option.value}
+          data-name={option.name}
+          data-index={index}>{option.name}
       </li>
     );
     return (
-      <div className={this.getClassName()} 
+      <div className={this.getClassName()}
+           ref="wrapper"
            data-multiple={this.isMultiple() || undefined} 
            onMouseDown={this.onMouseDown.bind(this)}>
         <div className="buttons">
           {this.state.values.length ? <button tabIndex="-1" className="clear" onMouseDown={this.onClear.bind(this)}>Clear</button> : null}
-          {this.props.list ? <button tabIndex="-1" className="expand" onMouseDown={this.onExpand.bind(this)}>Expand</button> : null}
+          {this.state.options ? <button tabIndex="-1" className="expand" onMouseDown={this.onExpand.bind(this)}>Expand</button> : null}
         </div>
         <ul className="suggestions"
           onMouseDown={this.onSuggestionMouseDown.bind(this)}
@@ -270,7 +332,7 @@ class Tokenfield extends Component {
           onInput={this.onInput.bind(this)} 
           onFocus={this.onFocus.bind(this)} 
           onBlur={this.onBlur.bind(this)} 
-          placeholder={this.props.placeholder} />
+          placeholder={this.state.placeholder} />
       </div>
     );
   }

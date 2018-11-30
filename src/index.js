@@ -8,16 +8,27 @@ import * as serviceWorker from './serviceWorker';
 import colors from './colors.json'
 
 
+var onChange = function(values, input) {
+	setTimeout(() => {
+		this.refs.wrapper.classList.add('changed')
+	}, 50)
+	setTimeout(() => {
+		this.refs.wrapper.classList.remove('changed')
+	}, 300)
+}
 ReactDOM.render(<App>
 	<p>Will not allow that are not in the list:</p>
-	<Tokenfield placeholder="Select multiple from a list..."  multiple list={colors}/>
-	<Tokenfield placeholder="Select one from a list..." list={colors}/>
+	<Tokenfield name="select1" placeholder="Select multiple from a list..."  multiple options={colors} onChange={onChange}/>
+	<Tokenfield name="select2" placeholder="Select one from a list..." options={colors} onChange={onChange}/>
 	<p>Will allow new values that are not in the list:</p>
-	<Tokenfield placeholder="Type or select multiple from a list..."  multiple list={colors} allowNew/>
-	<Tokenfield placeholder="Type or select one from a list..." list={colors} allowNew/>
+	<Tokenfield name="select3" placeholder="Type or select multiple from a list..."  multiple options={colors} allowNew onChange={onChange}/>
+	<Tokenfield name="select4" placeholder="Type or select one from a list..." options={colors} allowNew onChange={onChange}/>
 	<p>Does not have a list:</p>
-	<Tokenfield placeholder="Type multiple..."  multiple allowNew/>
-	<Tokenfield placeholder="Type one..." allowNew />
+	<Tokenfield name="select5" placeholder="Type multiple..."  multiple allowNew onChange={onChange}/>
+	<Tokenfield name="select6" placeholder="Type one..." allowNew onChange={onChange} />
+	<p>Preset values:</p>
+	<Tokenfield name="select7" placeholder="Type multiple..." values={["Red", "Blue"]}  multiple allowNew onChange={onChange}/>
+	<Tokenfield name="select8" placeholder="Type one..." value="Red" allowNew onChange={onChange} />
 </App>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
