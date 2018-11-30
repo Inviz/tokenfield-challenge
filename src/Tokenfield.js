@@ -309,14 +309,16 @@ class Tokenfield extends Component {
           data-index={index}>{option.name}
       </li>
     );
+    var showClear = this.state.values.length;
+    var showDropdown = this.state.options && (this.isMultiple() || !this.state.values.length);
     return (
       <div className={this.getClassName()}
            ref="wrapper"
            data-multiple={this.isMultiple() || undefined} 
            onMouseDown={this.onMouseDown.bind(this)}>
         <div className="buttons">
-          {this.state.values.length ? <button tabIndex="-1" className="clear" onMouseDown={this.onClear.bind(this)}>Clear</button> : null}
-          {this.state.options ? <button tabIndex="-1" className="expand" onMouseDown={this.onExpand.bind(this)}>Expand</button> : null}
+          {showClear ? <button tabIndex="-1" className="clear" onMouseDown={this.onClear.bind(this)}>Clear</button> : null}
+          {showDropdown ? <button tabIndex="-1" className="expand" onMouseDown={this.onExpand.bind(this)}>Expand</button> : null}
         </div>
         <ul className="suggestions"
           onMouseDown={this.onSuggestionMouseDown.bind(this)}
