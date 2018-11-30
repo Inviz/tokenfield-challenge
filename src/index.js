@@ -38,9 +38,9 @@ ReactDOM.render(<App>
 	<p>Does not have a list:</p>
 	<Tokenfield name="select5[]" placeholder="Type multiple..."  multiple allowNew onChange={onChange}/>
 	<Tokenfield name="select6" placeholder="Type one..." allowNew onChange={onChange} />
-	<p>Preset values:</p>
-	<Tokenfield name="select7[]" placeholder="Type multiple..." values={["Red", "Blue"]}  multiple allowNew onChange={onChange}/>
-	<Tokenfield name="select8" placeholder="Type one..." value="Red" allowNew onChange={onChange} />
+	<p>Preset values, custom style (`short` class):</p>
+	<Tokenfield className="short" name="select7[]" placeholder="Type multiple..." values={["Red", "Blue"]}  multiple allowNew onChange={onChange}/>
+	<Tokenfield className="short" name="select8" placeholder="Type one..." value="Red" allowNew onChange={onChange} />
 	<pre id="output"></pre>
 </App>, document.getElementById('root'));
 

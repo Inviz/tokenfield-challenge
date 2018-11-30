@@ -143,6 +143,8 @@ class Tokenfield extends Component {
       name += ' focused'
     if (this.state.values.length)
       name += ' filled'
+    if (this.props.className)
+      name += ' ' + this.props.className
     return name
   }
 
