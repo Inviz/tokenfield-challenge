@@ -12,19 +12,19 @@ self.__precacheManifest = [
     "url": "/tokenfield-challenge/static/js/runtime~main.dfe27d9d.js"
   },
   {
-    "revision": "d156d920574ad7d1cd9e",
-    "url": "/tokenfield-challenge/static/js/main.d156d920.chunk.js"
+    "revision": "b44842f406e3dcf0303f",
+    "url": "/tokenfield-challenge/static/js/main.b44842f4.chunk.js"
   },
   {
     "revision": "066de478acacbd1ad809",
     "url": "/tokenfield-challenge/static/js/1.066de478.chunk.js"
   },
   {
-    "revision": "d156d920574ad7d1cd9e",
-    "url": "/tokenfield-challenge/static/css/main.976b5462.chunk.css"
+    "revision": "b44842f406e3dcf0303f",
+    "url": "/tokenfield-challenge/static/css/main.aab61f8e.chunk.css"
   },
   {
-    "revision": "b1af41a027f1e0d6d6b7d6eff0c13a6c",
+    "revision": "f64c664768debab6b178823d9f06c41a",
     "url": "/tokenfield-challenge/index.html"
   }
 ];
