@@ -43,9 +43,9 @@ class Tokenfield extends Component {
   // Find option name by value
   getOptionName(option) {
     if (this.state.options) {
-      for (var i = 0; i < this.state.options; i++)
-        if (this.state.options[i].name === option)
-          return this.state.options[i].value
+      for (var i = 0; i < this.state.options.length; i++)
+        if (this.state.options[i].value === option)
+          return this.state.options[i].name
     }
   }
 
@@ -60,16 +60,16 @@ class Tokenfield extends Component {
       if (Array.isArray(this.props.options)) {
         this.props.options.forEach(function(option) {
           if (Array.isArray(option))
-            options.push({name: option[0], value: option[1]})
+            options.push({value: option[0], name: option[1]})
           else
-            options.push({name: option, value: option})
+            options.push({value: option, name: option})
         })
       } else {
         for (var property in this.props.options) {
           if (typeof this.props.options[property] == 'object') {
             options.push(this.props.options[property])
           } else {
-            options.push({name: property, value: this.props.options[property]})
+            options.push({name: this.props.options[property], value: property})
           }
         }
       }
@@ -80,6 +80,7 @@ class Tokenfield extends Component {
 
   // add values that are entered into a textfield
   pickValue(string) {
+    debugger
     this.splitValue(string)
       .forEach((value) => 
         this.addValue(value))

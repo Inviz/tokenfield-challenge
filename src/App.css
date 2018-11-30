@@ -22,6 +22,16 @@
   color: #61dafb;
 }
 
+#output {
+  white-space: pre;
+  font-size: 10px;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  background: rgba(0,0,0,0.25);
+  padding: 1rem;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
