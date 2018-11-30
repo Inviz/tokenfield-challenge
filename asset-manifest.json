@@ -1,7 +1,7 @@
 {
   "main.css": "/tokenfield-challenge/static/css/main.976b5462.chunk.css",
-  "main.js": "/tokenfield-challenge/static/js/main.3b516fee.chunk.js",
-  "main.js.map": "/tokenfield-challenge/static/js/main.3b516fee.chunk.js.map",
+  "main.js": "/tokenfield-challenge/static/js/main.a3aa6c83.chunk.js",
+  "main.js.map": "/tokenfield-challenge/static/js/main.a3aa6c83.chunk.js.map",
   "static/js/1.066de478.chunk.js": "/tokenfield-challenge/static/js/1.066de478.chunk.js",
   "static/js/1.066de478.chunk.js.map": "/tokenfield-challenge/static/js/1.066de478.chunk.js.map",
   "runtime~main.js": "/tokenfield-challenge/static/js/runtime~main.dfe27d9d.js",
@@ -9,6 +9,6 @@
   "static/css/main.976b5462.chunk.css.map": "/tokenfield-challenge/static/css/main.976b5462.chunk.css.map",
   "static/media/Tokenfield.css": "/tokenfield-challenge/static/media/expand.bb158ab6.svg",
   "index.html": "/tokenfield-challenge/index.html",
-  "precache-manifest.d45befe449be9e158c85cb4034867fda.js": "/tokenfield-challenge/precache-manifest.d45befe449be9e158c85cb4034867fda.js",
+  "precache-manifest.04493e0f3b2d4c0f5df8805e6ef8565c.js": "/tokenfield-challenge/precache-manifest.04493e0f3b2d4c0f5df8805e6ef8565c.js",
   "service-worker.js": "/tokenfield-challenge/service-worker.js"
 }
