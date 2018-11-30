@@ -298,7 +298,7 @@ class Tokenfield extends Component {
                 onMouseDown={this.onRemoveValue.bind(this)}>
           Delete
         </button>
-        <input type="hidden" name={this.props.name + '[]'} value={value} />
+        <input type="hidden" name={this.props.name} value={value} />
         {name}
       </li>
     });

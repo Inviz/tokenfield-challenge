@@ -30,16 +30,16 @@ var serialize = function() {
 }
 ReactDOM.render(<App>
 	<p>Will not allow values that are not in the list:</p>
-	<Tokenfield name="select1" placeholder="Select multiple from a list..."  multiple options={colorsArray} onChange={onChange}/>
+	<Tokenfield name="select1[]" placeholder="Select multiple from a list..."  multiple options={colorsArray} onChange={onChange}/>
 	<Tokenfield name="select2" placeholder="Select one from a list..." options={colorsArray} onChange={onChange}/>
 	<p>Will allow new values that are not in the list:</p>
-	<Tokenfield name="select3" placeholder="Type or select multiple from a list..."  multiple options={colorsObject} allowNew onChange={onChange}/>
+	<Tokenfield name="select3[]" placeholder="Type or select multiple from a list..."  multiple options={colorsObject} allowNew onChange={onChange}/>
 	<Tokenfield name="select4" placeholder="Type or select one from a list..." options={colorsObject} allowNew onChange={onChange}/>
 	<p>Does not have a list:</p>
-	<Tokenfield name="select5" placeholder="Type multiple..."  multiple allowNew onChange={onChange}/>
+	<Tokenfield name="select5[]" placeholder="Type multiple..."  multiple allowNew onChange={onChange}/>
 	<Tokenfield name="select6" placeholder="Type one..." allowNew onChange={onChange} />
 	<p>Preset values:</p>
-	<Tokenfield name="select7" placeholder="Type multiple..." values={["Red", "Blue"]}  multiple allowNew onChange={onChange}/>
+	<Tokenfield name="select7[]" placeholder="Type multiple..." values={["Red", "Blue"]}  multiple allowNew onChange={onChange}/>
 	<Tokenfield name="select8" placeholder="Type one..." value="Red" allowNew onChange={onChange} />
 	<pre id="output"></pre>
 </App>, document.getElementById('root'));
