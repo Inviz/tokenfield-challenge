@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/tokenfield-challenge/precache-manifest.77229fc2968abad8acd07acf71105f64.js"
+  "/tokenfield-challenge/precache-manifest.d45befe449be9e158c85cb4034867fda.js"
 );
 
 workbox.clientsClaim();
