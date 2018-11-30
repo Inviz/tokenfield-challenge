@@ -331,7 +331,7 @@ class Tokenfield extends Component {
           onInput={this.onInput.bind(this)} 
           onFocus={this.onFocus.bind(this)} 
           onBlur={this.onBlur.bind(this)} 
-          placeholder={this.state.placeholder} />
+          placeholder={this.props.placeholder} />
       </div>
     );
   }
