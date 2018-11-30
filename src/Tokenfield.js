@@ -114,9 +114,7 @@ class Tokenfield extends Component {
     if (index > -1) {
       var list = this.state.values.slice();
       list.splice(index, 1)
-      this.setState({
-        values: list
-      })
+      this.setValue(list)
     }
   }
 
